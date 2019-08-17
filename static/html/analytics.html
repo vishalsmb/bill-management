@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Analytics</title>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.3.914/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.3.914/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.3.914/styles/kendo.default.mobile.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://kendo.cdn.telerik.com/2016.3.914/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2016.3.914/js/kendo.all.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="example">
+                <div class="demo-section k-content wide">
+                    <div id="chart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                </div>
+                <script>
+                    var serverData ={ 
+                        "Food - Food orders" : 0, 
+                        "Food - Lunch" : 0, 
+                        "Food - Snacks At Office" : 0, 
+                        "Food - Snacks At Home" : 0,
+                        "Outing" : 0,
+                        "Donation": 0,
+                    };
+                    var total = 0;
+                    var data = [];
+                    fetch('/api/analytics/getExpenseCurrentMonth')
+                        .then(function(response) {
+                            return response.json();  
+                        })
+                        .then(function(res){
+                            for(let i=0;i<res.length;i++){
+                                let amount = parseInt(res[i].amount);
+                                serverData[res[i].category] += amount;
+                                total += amount;
+                            }
+
+                            for(var key in serverData){
+                                serverData[key] /= total;
+                                serverData[key] = Math.round(serverData[key] * 100);
+                                let obj = {
+                                    "source" : key,
+                                    "percentage" : serverData[key]
+                                }
+                                data.push(obj);
+                            }
+                            data[0].percentage -= 1;
+                        })
+                    
+                    var data1 =[
+                    {source: "Food - Food orders", percentage: 47},
+    {source: "Food - Lunch", percentage: 19},
+    {source: "Food - Snacks At Office", percentage: 9},
+    {source: "Food - Snacks At Home", percentage: 26},
+    {source: "Outing", percentage: 0},
+     {source: "Donation", percentage: 0}
+
+
+
+
+
+
+                    ];
+                    
+                    function createChart() {
+                        $("#chart").kendoChart({
+                            title: {
+                                position: "bottom",
+                                text: "Your expense for this month"
+                            },
+                            legend: {
+                                visible: false
+                            },
+                            chartArea: {
+                                background: ""
+                            },
+                            seriesDefaults: {
+                                labels: {
+                                    visible: true,
+                                    background: "transparent",
+                                    template: "#= category #: \n #= value#%"
+                                }
+                            },
+                            dataSource: {
+                                data: data1
+                            },
+                            series: [{
+                                type: "pie",
+                                field: "percentage",
+                                categoryField: "source",
+                                explodeField: "explode"
+                            }],
+                            seriesColors: ["#03a9f4", "#ff9800", "#fad84a", "#4caf50"],
+                                        tooltip: {
+                                            visible: true,
+                                            format: "{0}%"
+                                        }
+                                    });
+                                }
+             
+
+                    $(document).ready(createChart);
+                    $(document).bind("kendo:skinChange", createChart);
+                </script>
+            </div>
+            
+
+
+
+</body>
+</html>

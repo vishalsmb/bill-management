@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Enter your bills</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../style/expense.css" />
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Personal bill maintenance</h1>
+</div>
+
+<div class="col text-center" style="display: none;" id="loadingBar">
+    <div class="spinner-border" role="status">
+    </div> <br/> Loading..
+</div>
+
+<div class="row">
+    <div class="col text-center alert alert-success" style="display: none;" id="successAlert">
+        <strong>Submitted successfully</strong> 
+    </div>
+</div>     
+
+<div class="container" id="expenseEnter">
+    <form>
+        <div class="row">
+            <div class="col-4">
+                <label>1.Date</label>
+            </div>
+            <div class="col-8">
+                <input type="date" name="date" id="date"   required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label>2.Amount</label>
+            </div>
+            <div class="col-8">
+                <input type="text" name="amount" id="amount" required/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label>3.Category</label>
+            </div>
+            <div class="col-8">
+                <select name="category" id="category" required>
+                    <option></option>
+                    <option value="Food - Lunch">Food - Lunch</option>
+                    <option value="Food - Snacks At Office">Food - Snacks at office</option>
+                    <option value="Food - Snacks At Home">Food - Snacks at home</option>
+                    <option value="Food - Food orders">Food - Food orders</option>
+                    <option value="Food - Outing">Outing</option>
+                    <option value="Food - Donated">Donated</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label>4.Comments</label>
+            </div>
+            <div class="col-8">
+                <textarea name="comments" id="comments" row="4"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 text-center" style="padding : 10px;float:right;">
+                <button type="button" class="btn btn-primary" onclick="submit_expense()">Submit</button>
+            </div>
+            <div class="col-6 text-center" style="padding : 10px;float:left;">
+                <a href="/" class="btn btn-primary">Back</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="../js/expense.js"></script>
+</body>
+</html>
